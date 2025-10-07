@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import ScoreCircle from "./ScoreCircle";
 
 const ResumeCard = ({resume}: {resume: Resume} ) => {
     return (
@@ -15,7 +16,9 @@ const ResumeCard = ({resume}: {resume: Resume} ) => {
                 </h3>
             </div>
             <div className="flex-shrink-0">
-                
+                <ScoreCircle
+                    score={75}
+                />
             </div>
         </Link>
     );
