@@ -14,7 +14,7 @@ const Upload = () => {
             <Navbar/>
 
             <section className='main-section'>
-                <div className="page-heading">
+                <div className="page-heading py-16">
                     <h1>Smart feedback for your dream job</h1>
                     {isProcessing? (
                         <>
@@ -30,9 +30,25 @@ const Upload = () => {
                         </>
                     )}
                     {!isProcessing && (
-                        <form id="upload-form" onSubmit={handleSubmit} className='flex flex-col gap-4'>
-                            .
+                        <form id="upload-form" onSubmit={handleSubmit} className='flex flex-col gap-4 mt-4'>
+                            <div className="form-div">
+                                <label htmlFor="company-name">Company Name</label>
+                                <input type="text" name="company-name" id="company-name"/>
+                            </div>
+                            <div className="form-div">
+                                <label htmlFor="job-title">Job title</label>
+                                <input type="text" name="job-title" id="job-title"/>
+                            </div>
+                            <div className="form-div">
+                                <label htmlFor="job-description">Job description</label>
+                                <textarea rows={5} name="job-description" id="job-description"/>
+                            </div>
+                            <div className="form-div">
+                                <label htmlFor="uploader">Upload resume</label>
+                                <div>Uploader</div>
+                            </div>
 
+                            <button className='primary-button' type="submit"> Analyze</button>
                         </form>
                     )}
                 </div>   
