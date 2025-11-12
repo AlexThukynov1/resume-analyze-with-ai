@@ -1,16 +1,25 @@
 import React, {useCallback, useState} from 'react'
 import {useDropzone} from 'react-dropzone'
+import { formatSize } from '~/lib/utils';
 
 interface FileUploaderProps {
     onFileSelect?: (file: File | null) => void;
 }
 
 const FIleUploader = ({onFileSelect}: FileUploaderProps) => {
-    const [file, setFile] = useState()
     const onDrop = useCallback((acceptedFiles : File[]) => {
-        const file = acceptedFiles[0] || null
-  }, [])
-  const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
+        const file = acceptedFiles[0] || null;
+
+        onFileSelect?.(file)
+  }, [onFileSelect])
+  const {getRootProps, getInputProps, isDragActive, acceptedFiles} = useDropzone({
+    onDrop,
+    multiple: false,
+    accept: {'application/pdf': ['.pdf']},
+    maxSize: 20 * 1024 * 1024,
+})
+
+const file = acceptedFiles[0] || null;
 
     return (
         <div className="w-full gradient-border">
@@ -25,7 +34,19 @@ const FIleUploader = ({onFileSelect}: FileUploaderProps) => {
                             />
                         </div>
                         {file? (
-                            <div></div>
+                            <div className='uploader-selected-file' onClick={(e) => e.stopPropagation()}>
+                                <img src="/images/pdf.png" alt="pdf" className='size-10'/>
+                                <div className='flex items-center space-x-3'>
+                                    <div>
+                                        <p className='text-sm text-gray-700 font-medium truncate max-w-xs'>
+                                            {file.name}
+                                        </p>
+                                        <p className='text-sm text-gray-500'>
+                                            {formatSize(file.size)}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
                         ): (
                             <div>
                                 <p className='text-lg text-gray-500'>
