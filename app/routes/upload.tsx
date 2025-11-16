@@ -8,7 +8,14 @@ const Upload = () => {
     const [file, setFile] = useState<File | null>(null)
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
+        event.preventDefault();
+        const form = event.currentTarget.closest('form');
+        if(!form) return;
+        const formData = new FormData(form);
+
+        const companyName = formData.get('company-name')
+        const jobTitle = formData.get('job-title')
+        const jobDescription = formData.get('job-description')
     }
 
     const handleFileUpload = (file: File | null) => {
