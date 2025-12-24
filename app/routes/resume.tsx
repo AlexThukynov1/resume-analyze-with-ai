@@ -2,6 +2,9 @@ import {Link, useNavigate, useParams} from 'react-router';
 import type { Route } from "./+types/home";
 import { useEffect, useState } from 'react';
 import { usePuterStore } from '~/lib/puter';
+import Summary from '~/components/Summary';
+import ATS from '~/components/ATS';
+import Details from '~/components/Details';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -15,7 +18,7 @@ export default function resume() {
     const {id} = useParams();
     const [resumeUrl, setResumeUrl] = useState('');
     const [imageUrl, setImageUrl] = useState('');
-    const [feedback, setFeedback] = useState('');
+    const [feedback, setFeedback] = useState<Feedback | null>(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -43,7 +46,11 @@ export default function resume() {
         }
 
         loadResume();
-    }, [id])
+    }, [id]);
+
+    useEffect(() => {
+        if(isLoading && auth.isAuthenticated) navigate(`/auth?/next=/resume/${id}`);
+    }, [isLoading])
 
   return (
     <main className='!pt-0'>
@@ -69,6 +76,19 @@ export default function resume() {
                         </a>
                     </div>
                 )}
+            </section>
+            <section className='feedback-section'>
+                <h2 className='text-4xl !text-black font-bold'>Resume review</h2>
+                {feedback ? 
+                    ( <div className='flex flex-col gap-8 animate-in fade-in duration-1000'>
+                        <Summary feedback={feedback}/>
+                        <ATS 
+                            score={feedback.ATS.score || 0}
+                            suggestions={feedback.ATS.tips || []}/>
+                        <Details feedback={feedback}/>
+                    </div>) :
+                    (<img src="/images/resume-scan-2.gif" className='w-full'/>)
+                }
             </section>
         </div>
     </main>
