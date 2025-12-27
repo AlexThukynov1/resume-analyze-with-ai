@@ -1,3 +1,4 @@
+import Category from './Category';
 import ScoreGauge from './ScoreGauge';
 
 const Summary = ({feedback}: {feedback: Feedback}) => {
@@ -11,7 +12,12 @@ const Summary = ({feedback}: {feedback: Feedback}) => {
                         This score is calculated based on the variables listed below.
                     </p>
                 </div>
-            </div> 
+            </div>
+
+            <Category title="Tone & Style" score={feedback.toneAndStyle.score}/>
+            <Category title="Content" score={feedback.content.score}/>
+            <Category title="Structure" score={feedback.structure.score}/>
+            <Category title="Skills" score={feedback.skills.score}/>
         </div>
     );
 }
