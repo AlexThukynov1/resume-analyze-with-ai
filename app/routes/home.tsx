@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { usePuterStore } from "~/lib/puter";
 import Navbar from "~/components/Navbar";
 import type { Route } from "./+types/home";
@@ -18,7 +18,7 @@ export default function Home() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if(auth.isAuthenticated) navigate('/auth?/next=/');
+        if(!auth.isAuthenticated) navigate('/auth?/next=/');
     }, [auth.isAuthenticated])
 
   return <main className="bg-[url('/images/bg-main.svg')] bg-cover">

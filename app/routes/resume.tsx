@@ -22,11 +22,16 @@ export default function resume() {
     const navigate = useNavigate();
 
     useEffect(() => {
+        if(isLoading && auth.isAuthenticated) navigate(`/auth?/next=/resume/${id}`);
+    }, [isLoading])
+
+    useEffect(() => {
         const loadResume = async () => {
             const resume = await kv.get(`resume:${id}`);
             if(!resume) return;
 
             const data = JSON.parse(resume);
+            console.log(data);
 
             const resumeBlob = await fs.read(data.resumePath);
             if(!resumeBlob) return;
@@ -47,10 +52,6 @@ export default function resume() {
 
         loadResume();
     }, [id]);
-
-    useEffect(() => {
-        if(isLoading && auth.isAuthenticated) navigate(`/auth?/next=/resume/${id}`);
-    }, [isLoading])
 
   return (
     <main className='!pt-0'>
@@ -82,10 +83,8 @@ export default function resume() {
                 {feedback ? 
                     ( <div className='flex flex-col gap-8 animate-in fade-in duration-1000'>
                         <Summary feedback={feedback}/>
-                        <ATS 
-                            score={feedback.ATS.score || 0}
-                            suggestions={feedback.ATS.tips || []}/>
-                        <Details feedback={feedback}/>
+                        <ATS score={feedback.ATS.score || 0} suggestions={feedback.ATS.tips || []}/>
+                         <Details feedback={feedback}/>
                     </div>) :
                     (<img src="/images/resume-scan-2.gif" className='w-full'/>)
                 }
